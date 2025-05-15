@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Scripts/Main.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Map.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Tower1.tscn" type="PackedScene" id=3]
+[ext_resource path="res://font/Beauty Sunny.otf" type="DynamicFontData" id=4]
+[ext_resource path="res://Turrets/star_16x16.png" type="Texture" id=5]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -99, 547, 0, 0, 0, 0, 34, 545, 0, 0, 0, 0, 189, 545, 0, 0, 0, 0, 212, 540, 0, 0, 0, 0, 221, 529, 0, 0, 0, 0, 224, 490, 0, 0, 0, 0, 224, 382, 0, 0, 0, 0, 237, 355, 0, 0, 0, 0, 335, 354, 0, 0, 0, 0, 350, 369, 0, 0, 0, 0, 357, 404, 0, 0, 0, 0, 381, 415, 0, 0, 0, 0, 572, 417, 0, 0, 0, 0, 655, 418, 0, 0, 0, 0, 670, 393, 0, 0, 0, 0, 685, 356, 0, 0, 0, 0, 859, 361, 0, 0, 0, 0, 861, 439, 0, 0, 0, 0, 860, 519, 0, 0, 0, 0, 872, 540, 0, 0, 0, 0, 1042, 540, 0, 0, 0, 0, 1056, 521, 0, 0, 0, 0, 1058, 385, 0, 0, 0, 0, 1063, 361, 0, 0, 0, 0, 1125, 352, 0, 0, 0, 0, 1227, 356, 0, 0, 0, 0, 1246, 369, 0, 0, 0, 0, 1246, 428, 0, 0, 0, 0, 1247, 517, 0, 0, 0, 0, 1255, 539, 0, 0, 0, 0, 1299, 546, 0, 0, 0, 0, 1335, 546 )
+}
+
+[sub_resource type="Theme" id=2]
+
+[sub_resource type="DynamicFont" id=3]
+size = 64
+font_data = ExtResource( 4 )
+
+[node name="Main" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Map1" parent="." instance=ExtResource( 2 )]
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource( 1 )
+
+[node name="WaveTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="EnemyTimer" type="Timer" parent="."]
+
+[node name="Tower1" parent="." instance=ExtResource( 3 )]
+position = Vector2( 163, 606 )
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="GUI"]
+margin_left = 1012.0
+margin_top = 20.0
+margin_right = 1266.0
+margin_bottom = 99.0
+theme = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
+
+[node name="Tower1Spawn" type="TextureButton" parent="GUI"]
+margin_left = 3.0
+margin_top = -2.0
+margin_right = 131.0
+margin_bottom = 126.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture_normal = ExtResource( 5 )
+expand = true
+
+[connection signal="timeout" from="WaveTimer" to="." method="_on_WaveTimer_timeout"]
+[connection signal="timeout" from="EnemyTimer" to="." method="_on_EnemyTimer_timeout"]
+[connection signal="pressed" from="GUI/Tower1Spawn" to="." method="_on_TowerSpawn_pressed"]
